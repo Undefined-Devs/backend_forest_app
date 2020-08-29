@@ -12,12 +12,13 @@ class Api::V1::ApplicationApiController < ApplicationController
     @key = Rails.application.secrets.secret_key_base
   end
   def authenticate
-    if !request.headers["token"].nil? 
-      token_frontend = request.headers["token"]
-      decode = JWT.decode(token_frontend, @key)[0] 
+    authorization = request.headers["Authorization"]
+    if authorization.present? 
+      authorization = authorization.sub("Bearer ","")
+      decode = JWT.decode(authorization, @key)[0] 
       json_decode = HashWithIndifferentAccess.new decode
       token = Token.find_by(token:json_decode[:token])
-      if token.nil? or not token.is_valid?
+      if token.nil? && !token.is_valid?
         render json: {message: "Tu token es invalido"},status: :unauthorized
       else
         @current_user = token.user

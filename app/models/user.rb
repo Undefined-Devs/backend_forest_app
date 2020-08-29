@@ -23,9 +23,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :tokens
-  #validates :email, uniqueness: true,presence: true
-  validates :password, presence: true
+  has_one :profile
+  accepts_nested_attributes_for :profile
+  validates :email, uniqueness: true,presence: true, on: :create
+  validates :password, presence: true, on: :create
   def self.from_login(data)
-    User.find_by email: data[:email] 
+    User.find_by email: data[:email]
   end
 end
