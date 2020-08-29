@@ -1,0 +1,31 @@
+es:
+  jwt:
+    decode_error: "Token corrupto"
+  credentials: 
+    error: "Sus credenciales no son correctas"
+    not_params: 'No se encontraron parametros esperados'
+    invalid: 'Su email/password son incorrectos'
+    repit:  'Ese correo ya esta registrado'
+    user_invalid: "Correo y/o contraseña incorrecta(s)"
+  sessions:
+    login: 'Bienvenido %{email}'
+  resources:
+    category: 'Categoria'
+    categories: 'Categorias'
+    article:  'Articulo'
+    articles: 'Articulos'
+  messages:
+    add_name: "Debe registar el nombre del recurso"
+    dont_find: 'No se encuentra el recurso solicitado'
+    delete: "Elemento destruido"
+  rules:
+    dont_empty: "No se encontratron parametros en el recurso"
+    dont_register: 'No se a podido crear el recurso solicitado'
+    dont_permission: "No tiene suficientes privilegios para esta acción"
+  crud:
+    created: '%{resource} registrado'
+    updated: '%{resource} actualizado'
+    deleted: '%{resource} eliminado'
+    update_error: 'Su recurso no se ha podido actualizar'
+  user:
+    updated: "Usuario con el email '%{email}' actualizado."
