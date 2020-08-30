@@ -51,6 +51,10 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
     @post = @current_user.posts.new(post_params)
     if @post.valid?
       @post.save
+      if params[:post][:challenges].present?
+        @challenges = Challenge.where id: params[:post][:challenges].sub("[","").sub("]","").split(",")
+        @challenges.each{ |challenge| @post.challenges << challenge  }
+      end
       render :show
     else
       render json: @post.errors.messages, status: :unprocessable_entity
@@ -99,4 +103,12 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
   def post_update_params
     params.require(:post).permit(:title, :description)
   end
+
+  def post_assign_challenge
+    if params[:post][:challenges].present?
+      @challenges = Challenge.where id: params[:post][:challenges]
+      @challenges.each{ |challenge| @post.challenges << challenge  }
+    end
+  end
+
 end
