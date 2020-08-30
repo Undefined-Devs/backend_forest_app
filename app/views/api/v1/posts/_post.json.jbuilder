@@ -1,0 +1,1 @@
+json.extract! post, :id, :title, :description, :movie_url, :photo_url

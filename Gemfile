@@ -60,6 +60,9 @@ gem 'devise'#, '~> 4.5.0'
 gem 'cancancan', '~> 2.0'
 gem 'rails-i18n'
 gem "pry-rails"
-gem "annotate"
 gem 'will_paginate', '~> 3.1.0'
 gem 'aasm'
+gem "annotate", "~> 3.1"
+gem "aws-sdk-s3", "~> 1.79"
+
+gem "paranoia", "~> 2.4"

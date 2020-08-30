@@ -2,16 +2,22 @@
 #
 # Table name: tokens
 #
-#  id         :integer          not null, primary key
-#  expires_at :string
-#  token      :string
+#  id         :bigint           not null, primary key
+#  deleted_at :datetime
+#  expires_at :string(255)
+#  token      :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  user_id    :integer
+#  user_id    :bigint
 #
 # Indexes
 #
-#  index_tokens_on_user_id  (user_id)
+#  index_tokens_on_deleted_at  (deleted_at)
+#  index_tokens_on_user_id     (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 
 class Token < ApplicationRecord

@@ -29,7 +29,9 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
+
+  config.active_storage.service_urls_expire_in = 1.day
 
   config.hosts << "thisjesusmartinez.com"
 

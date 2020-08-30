@@ -1,4 +1,5 @@
 class Api::V1::ApplicationApiController < ApplicationController
+  before_action :set_locale
   protect_from_forgery with: :null_session#:exception
   private
   rescue_from CanCan::AccessDenied do |exception|

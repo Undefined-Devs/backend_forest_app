@@ -10,7 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_29_151538) do
+ActiveRecord::Schema.define(version: 2020_08_30_035633) do
+
+  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["deleted_at"], name: "index_active_storage_attachments_on_deleted_at"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_active_storage_blobs_on_deleted_at"
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "challenges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -18,6 +43,8 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_challenges_on_deleted_at"
   end
 
   create_table "notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -34,7 +61,9 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.bigint "challenge_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["challenge_id"], name: "index_post_challenges_on_challenge_id"
+    t.index ["deleted_at"], name: "index_post_challenges_on_deleted_at"
     t.index ["post_id"], name: "index_post_challenges_on_post_id"
   end
 
@@ -45,6 +74,8 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -55,6 +86,8 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_profiles_on_deleted_at"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -62,6 +95,8 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_rols_on_deleted_at"
   end
 
   create_table "tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -70,6 +105,8 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_tokens_on_deleted_at"
     t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
@@ -81,10 +118,13 @@ ActiveRecord::Schema.define(version: 2020_08_29_151538) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "notes", "users"
   add_foreign_key "post_challenges", "challenges"
   add_foreign_key "post_challenges", "posts"
