@@ -1,11 +1,12 @@
 class Api::V1::PostsController < Api::V1::ApplicationApiController
   before_action :authenticate, except: %i(index)
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :assign_challenge, :unassign_challenge]
 
   # GET /posts
   # GET /posts.json
   def index
     @posts = Post.includes(:challenges, user: [:profile]).paginate(:page => params[:page], :per_page => params[:per_page])
+    render :index,  status: @posts.length == 0 ? :no_content : :ok
   end
 
   # GET /posts/1
@@ -20,6 +21,28 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
 
   # GET /posts/1/edit
   def edit
+  end
+
+  def assign_challenge
+    @challenges = Challenge.where id: params[:challenges]
+    @challenges.each{ |challenge| @post.challenges << challenge  }
+    render :show
+    rescue ActiveRecord::RecordNotFound
+      head :not_found
+    rescue ActiveRecord::RecordNotUnique
+      head :unauthorized
+  end
+
+  def unassign_challenge
+    challenges = Challenge.find params[:challenges]
+    unless @post.challenges.size == 0
+      @post.challenges.delete(challenges) 
+      render :show
+    else
+      head :not_found
+    end
+    rescue ActiveRecord::RecordNotFound
+      head :not_found
   end
 
   # POST /posts
@@ -54,9 +77,13 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = @current_user.post.includes(:challenges, :active_storage_attachments, user: [:profile]).find(params[:id])
+    @post = @current_user.posts.includes(:challenges, user: [:profile]).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     head :not_found
+  end
+
+  def challenge_params
+    params.permit(:challenges)
   end
 
   # Only allow a list of trusted parameters through.

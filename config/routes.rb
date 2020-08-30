@@ -10,7 +10,12 @@ Rails.application.routes.draw do
         end
         resources :profiles
         resources :notes
-        resources :posts
+        resources :posts do
+          member do
+            post :assign_challenge
+            delete :unassign_challenge
+          end
+        end
         resources :rols
         resources :challenges
       end

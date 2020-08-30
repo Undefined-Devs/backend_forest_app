@@ -7,6 +7,7 @@
 #  deleted_at :datetime
 #  last_name  :string(255)
 #  name       :string(255)
+#  points     :integer          default(0)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  user_id    :bigint

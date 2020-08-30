@@ -3,7 +3,7 @@ class CreateChallenges < ActiveRecord::Migration[6.0]
     create_table :challenges do |t|
       t.string :name
       t.text :description
-      t.integer :points
+      t.integer :points, default: 0
 
       t.timestamps
     end
