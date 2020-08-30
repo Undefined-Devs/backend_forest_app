@@ -27,12 +27,12 @@ class Api::V1::ApplicationApiController < ApplicationController
       json_decode = HashWithIndifferentAccess.new decode
       token = Token.find_by(token: json_decode[:token])
       if token.nil? && !token.is_valid?
-        render json: { message: "Tu token es invalido" }, status: :unauthorized
+        head :unauthorized
       else
         @current_user = token.user
       end
     else
-      render json: { message: "No se obtuvieron parametros esperados" }, status: :unauthorized
+      head :unauthorized
     end
   end
 

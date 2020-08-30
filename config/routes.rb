@@ -14,10 +14,6 @@ Rails.application.routes.draw do
         resources :rols
         resources :challenges
       end
-      # namespace :v2 do
-      #   root 'home#index'
-      #   get  'home/index'
-      # end
     end
   end
 end

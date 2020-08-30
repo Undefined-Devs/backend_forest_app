@@ -5,7 +5,7 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.includes(:user, :challenges).all
+    @posts = Post.includes(:challenges, user: [:profile]).paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   # GET /posts/1
@@ -54,7 +54,7 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = @current_user.post.includes(:user, :challenges).find(params[:id])
+    @post = @current_user.post.includes(:challenges, :active_storage_attachments, user: [:profile]).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     head :not_found
   end

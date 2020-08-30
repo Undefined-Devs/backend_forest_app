@@ -42,9 +42,9 @@ class Api::V1::UsersController < Api::V1::ApplicationApiController
       render json: @user.errors, status: :unprocessable_entity
     end
   end
-  
+
   def update
-    if @user.id == @current_user.id 
+    if @user.id == @current_user.id
       if @user.valid?
         @user.update(user_params)
         render "api/v1/users/update"
@@ -52,7 +52,7 @@ class Api::V1::UsersController < Api::V1::ApplicationApiController
         render json: @user.errors.message, status: :bad_request
       end
     else
-      render json: { response: t("credentials.error") }, status: :bad_request
+      head :unauthorized
     end
   end
 
@@ -64,14 +64,14 @@ class Api::V1::UsersController < Api::V1::ApplicationApiController
 
   def user_params
     params.require(:user).permit(:email, :password, :avatar,
-      profile_attributes: [
-        :name, :last_name, :age,
-      ],)
+                                 profile_attributes: [
+                                   :name, :last_name, :age,
+                                 ])
   end
 
   def validate_user
-    if !params[:user].present? 
-      render json: { :message => t("messages.add_name") }
+    if !params[:user].present?
+      render json: { :message => t("messages.add_name") }, status: :bad_request
     end
   end
 
@@ -79,7 +79,7 @@ class Api::V1::UsersController < Api::V1::ApplicationApiController
     begin
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render json: { :message => t("messages.dont_find") }
+      render json: { :message => t("messages.dont_find") }, status: :bad_request
     end
   end
 end
