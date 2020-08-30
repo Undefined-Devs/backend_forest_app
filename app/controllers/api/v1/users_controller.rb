@@ -63,7 +63,10 @@ class Api::V1::UsersController < Api::V1::ApplicationApiController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :avatar,
+      profile_attributes: [
+        :name, :last_name, :age,
+      ],)
   end
 
   def validate_user

@@ -66,3 +66,5 @@ gem "annotate", "~> 3.1"
 gem "aws-sdk-s3", "~> 1.79"
 
 gem "paranoia", "~> 2.4"
+
+gem "rufo", "~> 0.12.0"

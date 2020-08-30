@@ -28,7 +28,7 @@ class User < ApplicationRecord
   has_many :tokens
   has_many :posts
   has_one  :profile
-  accepts_nested_attributes_for :profile
+  accepts_nested_attributes_for :profile, allow_destroy: true
   validates :email, uniqueness: true,presence: true, on: :create
   validates :password, presence: true, on: :create
   has_one_attached :avatar

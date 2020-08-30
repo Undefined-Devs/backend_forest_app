@@ -23,13 +23,13 @@
 class Post < ApplicationRecord
   acts_as_paranoid
   belongs_to :user
-  validates :title,  presence:true
-  validates :description,  presence:true
-  #validates :url_movie,  presence:true
+  validates :title, presence: true
+  validates :description, presence: true
+  has_and_belongs_to_many :challenges, dependent: :destroy
   has_one_attached :movie
-  has_one_attached :photo
-  #validate  :valid_url
-  
+  has_one_attached :photo #, file_size: { less_than_or_equal_to: 500.kilobytes }, file_content_type: { allow: ['image/jpeg', 'image/png'] }
+  validates_presence_of :movie
+
   def valid_url
     return if self.url_movie.blank?
     begin
@@ -58,5 +58,4 @@ class Post < ApplicationRecord
       nil
     end
   end
-
-end 
+end

@@ -5,7 +5,7 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.includes(:user, :challenges).all
   end
 
   # GET /posts/1
@@ -51,19 +51,25 @@ class Api::V1::PostsController < Api::V1::ApplicationApiController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = @current_user.posts.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:title, :description, :photo, :movie)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = @current_user.post.includes(:user, :challenges).find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
 
-    def post_update_params
-      params.require(:post).permit(:title, :description)
-    end
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.require(:post).permit(
+      :title,
+      :description,
+      :photo,
+      :movie
+    )
+  end
+
+  def post_update_params
+    params.require(:post).permit(:title, :description)
+  end
 end

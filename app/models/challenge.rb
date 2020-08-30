@@ -16,4 +16,5 @@
 #
 class Challenge < ApplicationRecord
   acts_as_paranoid
+  has_and_belongs_to_many :posts, dependent: :destroy
 end
