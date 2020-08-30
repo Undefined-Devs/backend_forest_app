@@ -24,5 +24,11 @@ module ForestApp
     end
     config.i18n.load_path += Dir[Rails.root.join('my','locales', '*{rb,yml}').to_s]
     config.i18n.default_locale = :es
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :put, :delete]
+      end
+    end
   end
 end

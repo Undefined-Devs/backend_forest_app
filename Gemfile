@@ -68,3 +68,5 @@ gem "aws-sdk-s3", "~> 1.79"
 gem "paranoia", "~> 2.4"
 
 gem "rufo", "~> 0.12.0"
+
+gem "rack-cors", "~> 1.1"
